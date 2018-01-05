@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		75C7E9151FFF3952009E597E /* GammaSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7E9141FFF3952009E597E /* GammaSettings.swift */; };
+		75C7E9171FFF4BCE009E597E /* SnapshotError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7E9161FFF4BCE009E597E /* SnapshotError.swift */; };
+		75C7E9191FFF4BFD009E597E /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C7E9181FFF4BFC009E597E /* Result.swift */; };
 		BE03CD0F1FFD8DB700932D8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD0E1FFD8DB700932D8F /* AppDelegate.swift */; };
 		BE03CD111FFD8DB700932D8F /* ColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD101FFD8DB700932D8F /* ColorViewController.swift */; };
 		BE03CD141FFD8DB700932D8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE03CD121FFD8DB700932D8F /* Main.storyboard */; };
@@ -15,7 +17,7 @@
 		BE03CD191FFD8DB700932D8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE03CD171FFD8DB700932D8F /* LaunchScreen.storyboard */; };
 		BE03CD291FFD8E0500932D8F /* Gamma.h in Headers */ = {isa = PBXBuildFile; fileRef = BE03CD271FFD8E0500932D8F /* Gamma.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE03CD471FFD918100932D8F /* GammaDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD461FFD918100932D8F /* GammaDemoTests.swift */; };
-		BE03CD4F1FFEC89D00932D8F /* Gamma.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD4E1FFEC89D00932D8F /* Gamma.swift */; };
+		BE03CD4F1FFEC89D00932D8F /* SnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */; };
 		BE03CD531FFECC2D00932D8F /* Gamma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE03CD251FFD8E0500932D8F /* Gamma.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 
 /* Begin PBXFileReference section */
 		75C7E9141FFF3952009E597E /* GammaSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GammaSettings.swift; sourceTree = "<group>"; };
+		75C7E9161FFF4BCE009E597E /* SnapshotError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotError.swift; sourceTree = "<group>"; };
+		75C7E9181FFF4BFC009E597E /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		BE03CD0B1FFD8DB700932D8F /* GammaDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GammaDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE03CD0E1FFD8DB700932D8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE03CD101FFD8DB700932D8F /* ColorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +55,7 @@
 		BE03CD441FFD918100932D8F /* GammaDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GammaDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE03CD461FFD918100932D8F /* GammaDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GammaDemoTests.swift; sourceTree = "<group>"; };
 		BE03CD481FFD918100932D8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE03CD4E1FFEC89D00932D8F /* Gamma.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gamma.swift; sourceTree = "<group>"; };
+		BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +123,9 @@
 			children = (
 				BE03CD271FFD8E0500932D8F /* Gamma.h */,
 				BE03CD281FFD8E0500932D8F /* Info.plist */,
-				BE03CD4E1FFEC89D00932D8F /* Gamma.swift */,
+				BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */,
+				75C7E9181FFF4BFC009E597E /* Result.swift */,
+				75C7E9161FFF4BCE009E597E /* SnapshotError.swift */,
 				75C7E9141FFF3952009E597E /* GammaSettings.swift */,
 			);
 			path = Gamma;
@@ -296,8 +302,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75C7E9171FFF4BCE009E597E /* SnapshotError.swift in Sources */,
 				75C7E9151FFF3952009E597E /* GammaSettings.swift in Sources */,
-				BE03CD4F1FFEC89D00932D8F /* Gamma.swift in Sources */,
+				75C7E9191FFF4BFD009E597E /* Result.swift in Sources */,
+				BE03CD4F1FFEC89D00932D8F /* SnapshotType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
