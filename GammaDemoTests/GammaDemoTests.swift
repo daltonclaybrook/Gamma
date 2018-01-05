@@ -4,13 +4,21 @@ import UIKit
 import XCTest
 
 class GammaDemoTests: XCTestCase {
+    override func setUp() {
+        super.setUp()
+        GammaSettings(forceRecord: true).makeCurrent()
+    }
     
-    func testExample() {
+    func testTenColorsInColorViewController() {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ColorViewController") as! ColorViewController
         let colors: [UIColor] = [
-            .green, .red, .blue, .orange, .magenta
+            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray, .yellow
         ]
         viewController.configure(with: colors)
+        viewController
+            .takeSnapshot()
+            .assertMatch()
+        
         print(String(describing: type(of: viewController)))
         
         let window = UIApplication.shared.keyWindow!
