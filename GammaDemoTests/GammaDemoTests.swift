@@ -1,11 +1,3 @@
-//
-//  GammaDemoTests.swift
-//  GammaDemoTests
-//
-//  Created by Dalton Claybrook on 1/3/18.
-//  Copyright © 2018 Dalton Claybrook. All rights reserved.
-//
-
 @testable import GammaDemo
 import Gamma
 import UIKit
