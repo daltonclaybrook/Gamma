@@ -1,4 +1,5 @@
 import UIKit
+import XCTest
 
 public enum Result {
     case match
@@ -8,9 +9,13 @@ public enum Result {
 
 extension Result {
     public func assertMatch() {
-        guard case .match = self else {
-            assertionFailure("The snapshot test image does not match the original stored on disk.")
-            return
+        switch self {
+        case .match:
+            break
+        case .noMatch:
+            XCTFail("The snapshot test image does not match the original stored on disk.")
+        case .error(let error):
+            XCTFail(error.description)
         }
     }
 }

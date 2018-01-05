@@ -28,7 +28,7 @@ extension SnapshotType {
     
     // MARK: Private
     
-    private func deviceModel() -> String? {
+    private func deviceModel() -> String {
         if let simulatorModel = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
             return simulatorModel
         }

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SnapshotError {
+public enum SnapshotError: Error {
     case missingEnvironmentVariable
 }
 
