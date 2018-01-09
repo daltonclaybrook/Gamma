@@ -3,7 +3,7 @@ import XCTest
 
 public enum Result {
     case match
-    case noMatch(original: UIImage, test: UIImage)
+    case noMatch(original: UIImage?, test: UIImage)
     case error(SnapshotError)
 }
 

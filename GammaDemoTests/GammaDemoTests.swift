@@ -12,7 +12,8 @@ class GammaDemoTests: XCTestCase {
     func testTenColorsInColorViewController() {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ColorViewController") as! ColorViewController
         let colors: [UIColor] = [
-            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray, .yellow
+//            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray, .yellow
+            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray
         ]
         viewController.configure(with: colors)
         viewController

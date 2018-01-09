@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct FileUtility {
     let basePath: String
@@ -36,6 +37,25 @@ struct FileUtility {
             fileManager.createFile(atPath: hashesPlistPath, contents: data)
             return emptyPlist
         }
+    }
+    
+    func saveImage(_ image: UIImage, identifier: String, overwrite: Bool) throws {
+        guard let data = UIImagePNGRepresentation(image),
+            let filename = (identifier as NSString).appendingPathExtension("png") else {
+            throw SnapshotError.couldNotSaveImage
+        }
+        let fullPath = (controlImagesPath as NSString).appendingPathComponent(filename)
+        if !overwrite && fileManager.fileExists(atPath: fullPath) {
+            return
+        }
+        let fileURL = URL(fileURLWithPath: fullPath)
+        try data.write(to: fileURL, options: .atomic)
+    }
+    
+    func saveHashesPlist(_ plist: [String: String]) throws {
+        let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
+        let fileURL = URL(fileURLWithPath: hashesPlistPath)
+        try data.write(to: fileURL, options: .atomic)
     }
     
     // MARK: Private

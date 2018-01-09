@@ -38,12 +38,17 @@ extension SnapshotType {
         if let existingHash = hashes[fullIdentifier] {
             if imageResult.hash == existingHash {
                 // test passes. save the image to originals folder if none exists.
-                
+                try fileUtility.saveImage(imageResult.image, identifier: fullIdentifier, overwrite: false)
             } else {
                 // test fails. save the composite image to the failure directory if an original exists.
+                // TODO
+                return .noMatch(original: nil, test: imageResult.image)
             }
         } else {
+            // no image hash exists, so the test technically passes. save the image to the originals folder, overwriting if necessary.
             hashes[fullIdentifier] = imageResult.hash
+            try fileUtility.saveImage(imageResult.image, identifier: fullIdentifier, overwrite: true)
+            try fileUtility.saveHashesPlist(hashes)
         }
         
         return .match
