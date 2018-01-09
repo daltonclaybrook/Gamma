@@ -8,6 +8,11 @@ public enum Result {
 }
 
 extension Result {
+    init(error: Error) {
+        let snapshotError = (error as? SnapshotError) ?? .underlying(error)
+        self = .error(snapshotError)
+    }
+    
     public func assertMatch() {
         switch self {
         case .match:

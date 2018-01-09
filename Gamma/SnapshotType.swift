@@ -18,29 +18,34 @@ extension UIView: SnapshotType {
 
 extension SnapshotType {
     public func takeSnapshot(identifier: String? = nil) -> Result {
-        guard let dataPath = dataFilePath() else {
-            return .error(SnapshotError.missingEnvironmentVariable)
+        do {
+            return try throwingTakeSnapshot(identifier: identifier)
+        } catch let error {
+            return Result(error: error)
         }
-        
-        let model = deviceModel()
-        return .match
     }
     
     // MARK: Private
     
-    private func deviceModel() -> String {
-        if let simulatorModel = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
-            return simulatorModel
+    private func throwingTakeSnapshot(identifier: String?) throws -> Result {
+        let fileUtility = try FileUtility()
+        try fileUtility.checkOrCreateDataDirectory()
+        let model = Device.model()
+        var hashes = try fileUtility.createOrLoadHashesPlist()
+        let fullIdentifier = "\(model)-\(identifier ?? "Default")"
+        let imageResult = try ImageUtility.generateImageResult(from: snapshotView)
+        
+        if let existingHash = hashes[fullIdentifier] {
+            if imageResult.hash == existingHash {
+                // test passes. save the image to originals folder if none exists.
+                
+            } else {
+                // test fails. save the composite image to the failure directory if an original exists.
+            }
+        } else {
+            hashes[fullIdentifier] = imageResult.hash
         }
         
-        var size: size_t = 0
-        sysctlbyname("hw.machine", nil, &size, nil, 0)
-        var machine = [CChar](repeating: 0, count: Int(size))
-        sysctlbyname("hw.machine", &machine, &size, nil, 0)
-        return String(cString: machine)
-    }
-    
-    private func dataFilePath() -> String? {
-        return ProcessInfo.processInfo.environment["GAMMA_DIR"]
+        return .match
     }
 }

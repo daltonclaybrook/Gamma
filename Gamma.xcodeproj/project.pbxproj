@@ -20,6 +20,11 @@
 		BE03CD471FFD918100932D8F /* GammaDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD461FFD918100932D8F /* GammaDemoTests.swift */; };
 		BE03CD4F1FFEC89D00932D8F /* SnapshotType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */; };
 		BE03CD531FFECC2D00932D8F /* Gamma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE03CD251FFD8E0500932D8F /* Gamma.framework */; };
+		BE04A56320055772002978F7 /* FileUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE04A56220055772002978F7 /* FileUtility.swift */; };
+		BE04A56720057E32002978F7 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE04A56620057E32002978F7 /* Device.swift */; };
+		BE7329822004333800B66F4D /* GMACrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = BE7329802004333800B66F4D /* GMACrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE7329832004333800B66F4D /* GMACrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7329812004333800B66F4D /* GMACrypto.m */; };
+		BE73298620052F5200B66F4D /* ImageUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE73297E20042F8900B66F4D /* ImageUtility.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +76,11 @@
 		BE03CD461FFD918100932D8F /* GammaDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GammaDemoTests.swift; sourceTree = "<group>"; };
 		BE03CD481FFD918100932D8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotType.swift; sourceTree = "<group>"; };
+		BE04A56220055772002978F7 /* FileUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileUtility.swift; sourceTree = "<group>"; };
+		BE04A56620057E32002978F7 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		BE73297E20042F8900B66F4D /* ImageUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtility.swift; sourceTree = "<group>"; };
+		BE7329802004333800B66F4D /* GMACrypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMACrypto.h; sourceTree = "<group>"; };
+		BE7329812004333800B66F4D /* GMACrypto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GMACrypto.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,11 +147,16 @@
 			isa = PBXGroup;
 			children = (
 				BE03CD271FFD8E0500932D8F /* Gamma.h */,
+				BE7329802004333800B66F4D /* GMACrypto.h */,
+				BE7329812004333800B66F4D /* GMACrypto.m */,
 				BE03CD281FFD8E0500932D8F /* Info.plist */,
 				BE03CD4E1FFEC89D00932D8F /* SnapshotType.swift */,
 				75C7E9181FFF4BFC009E597E /* Result.swift */,
 				75C7E9161FFF4BCE009E597E /* SnapshotError.swift */,
 				75C7E9141FFF3952009E597E /* GammaSettings.swift */,
+				BE73297E20042F8900B66F4D /* ImageUtility.swift */,
+				BE04A56220055772002978F7 /* FileUtility.swift */,
+				BE04A56620057E32002978F7 /* Device.swift */,
 			);
 			path = Gamma;
 			sourceTree = "<group>";
@@ -170,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE03CD291FFD8E0500932D8F /* Gamma.h in Headers */,
+				BE7329822004333800B66F4D /* GMACrypto.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,10 +334,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE7329832004333800B66F4D /* GMACrypto.m in Sources */,
 				75C7E9171FFF4BCE009E597E /* SnapshotError.swift in Sources */,
+				BE73298620052F5200B66F4D /* ImageUtility.swift in Sources */,
 				75C7E9151FFF3952009E597E /* GammaSettings.swift in Sources */,
 				75C7E9191FFF4BFD009E597E /* Result.swift in Sources */,
 				BE03CD4F1FFEC89D00932D8F /* SnapshotType.swift in Sources */,
+				BE04A56320055772002978F7 /* FileUtility.swift in Sources */,
+				BE04A56720057E32002978F7 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
