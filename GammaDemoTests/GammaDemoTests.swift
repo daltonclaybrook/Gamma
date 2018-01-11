@@ -2,8 +2,9 @@
 import Gamma
 import UIKit
 import XCTest
+import FBSnapshotTestCase
 
-class GammaDemoTests: XCTestCase {
+class GammaDemoTests: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
         GammaSettings(forceRecord: true).makeCurrent()
@@ -19,13 +20,7 @@ class GammaDemoTests: XCTestCase {
         viewController
             .takeSnapshot()
             .assertMatch()
-        
-        print(String(describing: type(of: viewController)))
-        
-        let window = UIApplication.shared.keyWindow!
-        window.rootViewController = viewController
-        let image = snapshotOfView(window)
-        XCTAssertNotNil(image)
+        FBSnapshotVerifyView(viewController.view)
     }
     
     // MARK: Private

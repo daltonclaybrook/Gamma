@@ -4,5 +4,9 @@
 <dict>
 	<key>iPhone10,4-Default</key>
 	<string>b58ba0ac13b4d174b3c60de707f84488c3d200aa8f997a6a507f1ea1423cb7eb</string>
+	<key>iPhone10,5-ColorViewController-Default</key>
+	<string>efb07b2b42b3e9567bc2d0a37f41dcb2ff83fa43</string>
+	<key>iPhone10,5-Default</key>
+	<string>86bd2520294ec2c301129564dc3fa667242e11562153230b10995b1c1d662300</string>
 </dict>
 </plist>

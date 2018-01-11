@@ -1,3 +1,7 @@
 Gamma.xcodeproj/xcuserdata
 Gamma.xcodeproj/project.xcworkspace/xcuserdata
 GammaData/ControlImages
+Pods
+Gamma.xcworkspace/xcuserdata
+GammaTests/FailureDiffs
+GammaTests/ReferenceImages_64

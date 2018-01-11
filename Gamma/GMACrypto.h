@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GMACrypto : NSObject
 
-+ (NSString *)sha256HashOfData:(const char *)data length:(unsigned int)length;
++ (NSString *)sha1HashOfData:(const char *)data length:(unsigned int)length;
 
 @end
 

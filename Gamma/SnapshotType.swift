@@ -30,9 +30,9 @@ extension SnapshotType {
     private func throwingTakeSnapshot(identifier: String?) throws -> Result {
         let fileUtility = try FileUtility()
         try fileUtility.checkOrCreateDataDirectory()
-        let model = Device.model()
         var hashes = try fileUtility.createOrLoadHashesPlist()
-        let fullIdentifier = "\(model)-\(identifier ?? "Default")"
+        
+        let fullIdentifier = createFullIdentifier(withSuffix: identifier)
         let imageResult = try ImageUtility.generateImageResult(from: snapshotView)
         
         if let existingHash = hashes[fullIdentifier] {
@@ -52,5 +52,12 @@ extension SnapshotType {
         }
         
         return .match
+    }
+    
+    private func createFullIdentifier(withSuffix suffix: String?) -> String {
+        let model = Device.model()
+        let typeName = "\(type(of: self))"
+        let suffix = suffix ?? "Default"
+        return "\(model)-\(typeName)-\(suffix)"
     }
 }

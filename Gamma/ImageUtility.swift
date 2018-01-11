@@ -1,3 +1,4 @@
+import CoreGraphics
 import UIKit
 
 struct ImageResult {
@@ -29,18 +30,14 @@ struct ImageUtility {
     
     private static func generateHash(from image: UIImage) -> String? {
         guard let cgImage = image.cgImage else { return nil }
-        let bitsPerComponent = 8
-        let bytesPerRow = cgImage.width * 4
-        let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
-        
         guard let context = CGContext(
             data: nil,
             width: cgImage.width,
             height: cgImage.height,
-            bitsPerComponent: bitsPerComponent,
-            bytesPerRow: bytesPerRow,
+            bitsPerComponent: cgImage.bitsPerComponent,
+            bytesPerRow: cgImage.bytesPerRow,
             space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: bitmapInfo
+            bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue
         ) else {
             return nil
         }
@@ -49,7 +46,7 @@ struct ImageUtility {
         context.draw(cgImage, in: rect)
         guard let data = context.data else { return nil }
         let rgbaData = data.assumingMemoryBound(to: Int8.self)
-        let dataLength = UInt32(bytesPerRow * cgImage.height)
-        return GMACrypto.sha256Hash(ofData: rgbaData, length: dataLength)
+        let dataLength = UInt32(cgImage.bytesPerRow * cgImage.height)
+        return GMACrypto.sha1Hash(ofData: rgbaData, length: dataLength)
     }
 }
