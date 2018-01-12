@@ -5,3 +5,4 @@ Pods
 Gamma.xcworkspace/xcuserdata
 GammaTests/FailureDiffs
 GammaTests/ReferenceImages_64
+GammaData/Devices

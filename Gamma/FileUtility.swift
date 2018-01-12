@@ -16,8 +16,10 @@ extension Dictionary where Key == String, Value == [String: String] {
 
 struct FileUtility {
     let basePath: String
-    let referenceImagesPath: String
+    let allDevicesPath: String
     let deviceModelPath: String
+    let referenceImagesPath: String
+    let failureImagesPath: String
     let hashesPlistPath: String
     
     private let fileManager: FileManager
@@ -27,16 +29,20 @@ struct FileUtility {
             throw SnapshotError.missingEnvironmentVariable
         }
         self.basePath = basePath
-        self.referenceImagesPath = (basePath as NSString).appendingPathComponent("ReferenceImages")
-        self.deviceModelPath = (referenceImagesPath as NSString).appendingPathComponent(Device.model)
+        self.allDevicesPath = (basePath as NSString).appendingPathComponent("Devices")
+        self.deviceModelPath = (allDevicesPath as NSString).appendingPathComponent(Device.model)
+        self.referenceImagesPath = (deviceModelPath as NSString).appendingPathComponent("ReferenceImages")
+        self.failureImagesPath = (deviceModelPath as NSString).appendingPathComponent("FailureImages")
         self.hashesPlistPath = (basePath as NSString).appendingPathComponent("hashes.plist")
         self.fileManager = FileManager.default
     }
     
     func checkOrCreateDataDirectory() throws {
         try checkOrCreateDirectory(at: basePath)
-        try checkOrCreateDirectory(at: referenceImagesPath)
+        try checkOrCreateDirectory(at: allDevicesPath)
         try checkOrCreateDirectory(at: deviceModelPath)
+        try checkOrCreateDirectory(at: referenceImagesPath)
+        try checkOrCreateDirectory(at: failureImagesPath)
     }
     
     func createOrLoadHashesPlist() throws -> HashesPlist {
@@ -55,23 +61,24 @@ struct FileUtility {
         }
     }
     
-    func saveImage(_ image: UIImage, identifier: String, overwrite: Bool) throws {
-        guard let data = UIImagePNGRepresentation(image),
-            let filename = (identifier as NSString).appendingPathExtension("png") else {
-            throw SnapshotError.couldNotSaveImage
-        }
-        let fullPath = (deviceModelPath as NSString).appendingPathComponent(filename)
-        if !overwrite && fileManager.fileExists(atPath: fullPath) {
-            return
-        }
-        let fileURL = URL(fileURLWithPath: fullPath)
-        try data.write(to: fileURL, options: .atomic)
+    func loadReferenceImage(withIdentifier identifier: String) -> UIImage? {
+        guard let filename = (identifier as NSString).appendingPathExtension("png") else { return nil }
+        let fullPath = (referenceImagesPath as NSString).appendingPathComponent(filename)
+        return UIImage(contentsOfFile: fullPath)
     }
     
     func saveHashesPlist(_ plist: HashesPlist) throws {
         let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
         let fileURL = URL(fileURLWithPath: hashesPlistPath)
         try data.write(to: fileURL, options: .atomic)
+    }
+    
+    func saveReferenceImage(_ image: UIImage, identifier: String, overwrite: Bool) throws {
+        try saveImage(image, identifier: identifier, directoryPath: referenceImagesPath, overwrite: overwrite)
+    }
+    
+    func saveFailureImage(_ image: UIImage, identifier: String, overwrite: Bool) throws {
+        try saveImage(image, identifier: identifier, directoryPath: failureImagesPath, overwrite: overwrite)
     }
     
     // MARK: Private
@@ -85,5 +92,18 @@ struct FileUtility {
             // file exists, and it is not a directory as expected
             throw SnapshotError.corruptDataDirectory
         }
+    }
+    
+    private func saveImage(_ image: UIImage, identifier: String, directoryPath: String, overwrite: Bool) throws {
+        guard let data = UIImagePNGRepresentation(image),
+            let filename = (identifier as NSString).appendingPathExtension("png") else {
+                throw SnapshotError.couldNotSaveImage
+        }
+        let fullPath = (directoryPath as NSString).appendingPathComponent(filename)
+        if !overwrite && fileManager.fileExists(atPath: fullPath) {
+            return
+        }
+        let fileURL = URL(fileURLWithPath: fullPath)
+        try data.write(to: fileURL, options: .atomic)
     }
 }

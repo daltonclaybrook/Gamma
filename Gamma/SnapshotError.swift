@@ -5,6 +5,7 @@ public enum SnapshotError: Error {
     case couldNotCreateSnapshot
     case couldNotSaveImage
     case corruptDataDirectory
+    case couldNotCreateDiff
     case underlying(Error)
 }
 
@@ -19,6 +20,8 @@ extension SnapshotError: CustomStringConvertible {
             return "Something went wrong when trying to save the image to disk."
         case .corruptDataDirectory:
             return "The data directory is corrupt. Try deleting it and running the tests again."
+        case .couldNotCreateDiff:
+            return "Something went wrong when trying to create the failure diff image."
         case .underlying(let error):
             return "underlying error: \(error)"
         }

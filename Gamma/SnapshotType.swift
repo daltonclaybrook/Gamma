@@ -58,16 +58,20 @@ extension SnapshotType {
         if !settings.forceRecord, let existingHash = hashes.hash(for: fullId) {
             if imageResult.hash == existingHash {
                 // test passes. save the image to originals folder if none exists.
-                try fileUtility.saveImage(imageResult.image, identifier: fullId, overwrite: false)
+                try fileUtility.saveReferenceImage(imageResult.image, identifier: fullId, overwrite: false)
+            } else if let referenceImage = fileUtility.loadReferenceImage(withIdentifier: fullId) {
+                // test fails. save the diff image to the failure directory
+                let diffImage = try ImageUtility.createDiff(between: imageResult.image, and: referenceImage)
+                try fileUtility.saveFailureImage(diffImage, identifier: fullId, overwrite: true)
+                return .noMatch(reference: referenceImage, test: imageResult.image)
             } else {
-                // test fails. save the composite image to the failure directory if an original exists.
-                // TODO
-                return .noMatch(original: nil, test: imageResult.image)
+                // test fails, but not reference images could be loaded.
+                return .noMatch(reference: nil, test: imageResult.image)
             }
         } else {
             // no image hash exists, so the test technically passes. save the image to the originals folder, overwriting if necessary.
             hashes.setHash(imageResult.hash, for: fullId)
-            try fileUtility.saveImage(imageResult.image, identifier: fullId, overwrite: true)
+            try fileUtility.saveReferenceImage(imageResult.image, identifier: fullId, overwrite: true)
             try fileUtility.saveHashesPlist(hashes)
         }
         
@@ -81,6 +85,9 @@ extension SnapshotType {
             .joined()
         if let identifier = identifier {
             fullId.append("-\(identifier)")
+        }
+        if UIScreen.main.scale > 1 {
+            fullId.append("@\(Int(UIScreen.main.scale))x")
         }
         return fullId
     }
