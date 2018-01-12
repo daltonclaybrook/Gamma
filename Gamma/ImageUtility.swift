@@ -10,9 +10,9 @@ struct ImageUtility {
     
     // MARK: Internal
     
-    static func generateImageResult(from view: UIView) throws -> ImageResult {
-        let image = snapshotOfView(view)
-        guard let hash = generateHash(from: image) else {
+    static func generateImageResult(from layer: CALayer) throws -> ImageResult {
+        guard let image = snapshotOfLayer(layer),
+            let hash = generateHash(from: image) else {
             throw SnapshotError.couldNotCreateSnapshot
         }
         return ImageResult(image: image, hash: hash)
@@ -20,9 +20,11 @@ struct ImageUtility {
     
     // MARK: Private
     
-    private static func snapshotOfView(_ view: UIView) -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(view.bounds.size, true, 0.0)
-        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+    private static func snapshotOfLayer(_ layer: CALayer) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(layer.bounds.size, true, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        layer.layoutIfNeeded()
+        layer.render(in: context)
         let image = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         return image

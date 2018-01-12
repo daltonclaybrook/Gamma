@@ -1,9 +1,23 @@
 import Foundation
 import UIKit
 
+typealias HashesPlist = [String: [String: String]]
+extension Dictionary where Key == String, Value == [String: String] {
+    func hash(for identifier: String) -> String? {
+        return self[Device.model]?[identifier]
+    }
+    
+    mutating func setHash(_ hash: String, for identifier: String) {
+        var hashesForDevice = self[Device.model] ?? [:]
+        hashesForDevice[identifier] = hash
+        self[Device.model] = hashesForDevice
+    }
+}
+
 struct FileUtility {
     let basePath: String
-    let controlImagesPath: String
+    let referenceImagesPath: String
+    let deviceModelPath: String
     let hashesPlistPath: String
     
     private let fileManager: FileManager
@@ -13,26 +27,28 @@ struct FileUtility {
             throw SnapshotError.missingEnvironmentVariable
         }
         self.basePath = basePath
-        self.controlImagesPath = (basePath as NSString).appendingPathComponent("ControlImages")
+        self.referenceImagesPath = (basePath as NSString).appendingPathComponent("ReferenceImages")
+        self.deviceModelPath = (referenceImagesPath as NSString).appendingPathComponent(Device.model)
         self.hashesPlistPath = (basePath as NSString).appendingPathComponent("hashes.plist")
         self.fileManager = FileManager.default
     }
     
     func checkOrCreateDataDirectory() throws {
         try checkOrCreateDirectory(at: basePath)
-        try checkOrCreateDirectory(at: controlImagesPath)
+        try checkOrCreateDirectory(at: referenceImagesPath)
+        try checkOrCreateDirectory(at: deviceModelPath)
     }
     
-    func createOrLoadHashesPlist() throws -> [String: String] {
+    func createOrLoadHashesPlist() throws -> HashesPlist {
         if let data = fileManager.contents(atPath: hashesPlistPath) {
             let plist = try PropertyListSerialization.propertyList(from: data, format: nil)
-            if let plist = plist as? [String: String] {
+            if let plist = plist as? HashesPlist {
                 return plist
             } else {
                 throw SnapshotError.corruptDataDirectory
             }
         } else {
-            let emptyPlist: [String: String] = [:]
+            let emptyPlist: HashesPlist = [:]
             let data = try PropertyListSerialization.data(fromPropertyList: emptyPlist, format: .xml, options: 0)
             fileManager.createFile(atPath: hashesPlistPath, contents: data)
             return emptyPlist
@@ -44,7 +60,7 @@ struct FileUtility {
             let filename = (identifier as NSString).appendingPathExtension("png") else {
             throw SnapshotError.couldNotSaveImage
         }
-        let fullPath = (controlImagesPath as NSString).appendingPathComponent(filename)
+        let fullPath = (deviceModelPath as NSString).appendingPathComponent(filename)
         if !overwrite && fileManager.fileExists(atPath: fullPath) {
             return
         }
@@ -52,7 +68,7 @@ struct FileUtility {
         try data.write(to: fileURL, options: .atomic)
     }
     
-    func saveHashesPlist(_ plist: [String: String]) throws {
+    func saveHashesPlist(_ plist: HashesPlist) throws {
         let data = try PropertyListSerialization.data(fromPropertyList: plist, format: .xml, options: 0)
         let fileURL = URL(fileURLWithPath: hashesPlistPath)
         try data.write(to: fileURL, options: .atomic)

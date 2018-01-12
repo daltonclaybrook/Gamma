@@ -7,7 +7,8 @@ import FBSnapshotTestCase
 class GammaDemoTests: FBSnapshotTestCase {
     override func setUp() {
         super.setUp()
-        GammaSettings(forceRecord: true).makeCurrent()
+//        self.recordMode = true
+//        GammaSettings(forceRecord: true).makeCurrent()
     }
     
     func testTenColorsInColorViewController() {
@@ -17,10 +18,24 @@ class GammaDemoTests: FBSnapshotTestCase {
             .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray
         ]
         viewController.configure(with: colors)
-        viewController
-            .takeSnapshot()
-            .assertMatch()
-        FBSnapshotVerifyView(viewController.view)
+//        measure {
+            viewController
+                .takeSnapshot(identifier: "foobar")
+                .assertMatch()
+//        }
+    }
+    
+    func testFacebook() {
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ColorViewController") as! ColorViewController
+        let colors: [UIColor] = [
+//            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray, .yellow
+            .green, .red, .blue, .orange, .magenta, .brown, .cyan, .purple, .gray
+        ]
+        viewController.configure(with: colors)
+        
+        measure {
+            FBSnapshotVerifyView(viewController.view)
+        }
     }
     
     // MARK: Private

@@ -1,9 +1,9 @@
 import Foundation
 
 struct Device {
-    static func model() -> String {
+    static var model: String = {
         if let simulatorModel = ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] {
-            return simulatorModel
+            return "\(simulatorModel)-sim"
         }
         
         var size: size_t = 0
@@ -11,5 +11,5 @@ struct Device {
         var machine = [CChar](repeating: 0, count: Int(size))
         sysctlbyname("hw.machine", &machine, &size, nil, 0)
         return String(cString: machine)
-    }
+    }()
 }
